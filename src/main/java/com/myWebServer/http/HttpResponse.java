@@ -1,11 +1,18 @@
 package main.java.com.myWebServer.http;
 
-import java.util.Map;
+import main.java.com.myWebServer.http.enums.HttpStatusCode;
+import main.java.com.myWebServer.http.enums.HttpVersion;
 
-public class HttpResponse extends HttpMessage {
-    HttpResponse(String body) {
-        super(body);
-    }
-}
-
+//public class HttpResponse extends HttpMessage {
+//    private HttpStatusCode statusCode;
+//
+//    HttpResponse(String body) {
+//        super();
+//    }
+//
+//    public HttpStatusCode getStatusCode() {
+//        return statusCode;
+//    }
+//}
+//
 

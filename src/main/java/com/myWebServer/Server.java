@@ -1,5 +1,7 @@
 package main.java.com.myWebServer;
 
+import main.java.com.myWebServer.http.HttpRequest;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,26 +17,14 @@ public class Server {
     public void listen() throws IOException {
         while (true) {
             Socket clientSocket = serverSocket.accept();
+            InputStream inputStream = clientSocket.getInputStream();
+            OutputStream outputStream = clientSocket.getOutputStream();
 
-            DataInputStream in = new DataInputStream(clientSocket.getInputStream());
-            OutputStream out = clientSocket.getOutputStream();
+            HttpRequest request = new HttpRequest(inputStream);
 
-            System.out.println("New connection from " + clientSocket.getInetAddress());
+            System.out.println("New " + request.getMethod() + " request " + "version: " + request.getHttpVersion() + " path: " + request.getPath());
 
-            String html = "sug pula 8====D";
-
-            final String CRLF = "\n\r"; // 13, 10
-
-            String response = "HTTP/1.1 200 OK" + CRLF + // Status Line : HTTP_VERSION RESPONSE_CODE RESPONSE_MESSAGE
-                    "Content-Length: " + html.getBytes().length + CRLF + CRLF + // end of HEADER
-                    html +
-                    CRLF + CRLF;
-
-            out.write(response.getBytes());
-            out.flush();
-
-            out.close();
-            in.close();
+            outputStream.close();
         }
     }
 }
