@@ -19,4 +19,8 @@ public enum HttpVersion {
         }
         throw new IllegalArgumentException("Unsupported HTTP version: " + version);
     }
+
+    public String getText() {
+        return text;
+    }
 }

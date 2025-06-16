@@ -6,28 +6,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class HttpMessage {
-    private Map<String, String> headers = new HashMap<>();
+    private final Map<String, String> headers = new HashMap<>();
     protected HttpVersion httpVersion;
-
-    protected void addHeader(Header header) {
-        this.headers.put(header.key(), header.value());
-    }
 
     protected void removeHeader(Header header) {
         this.headers.remove(header.key());
     }
 
-    protected abstract void setHttpVersion(String httpVersion);
+    protected void addHeader(String key, String value) {
+        this.headers.put(key, value);
+    };
 
-    public Map<String, String> getHeaders() {
-        return headers;
-    }
+    protected abstract void setHttpVersion(String httpVersion);
 
     public HttpVersion getHttpVersion() {
         return httpVersion;
     }
 
-    protected void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
+    public void printHeaders() {
+        for (Map.Entry<String, String> header : this.headers.entrySet()) {
+            System.out.println(header.getKey() + ": " + header.getValue());
+        }
+    }
+
+    public String getHeader(String key) {
+        return this.headers.get(key);
     }
 }
