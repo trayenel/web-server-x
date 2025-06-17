@@ -1,11 +1,9 @@
 package main.java.com.myWebServer.http;
 
-import main.java.com.myWebServer.http.enums.HttpMethod;
-import main.java.com.myWebServer.http.enums.HttpVersion;
+import main.java.com.myWebServer.enums.HttpMethod;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 public class HttpRequest extends HttpMessage {
     private HttpMethod method;
@@ -34,11 +32,6 @@ public class HttpRequest extends HttpMessage {
         } while (inputStream.available() > 0);
 
         return result.toString().split("[ \\r\\n]+");
-    }
-
-    @Override
-    protected void setHttpVersion(String versionStr) {
-        httpVersion = HttpVersion.fromString(versionStr);
     }
 
     protected void extractHeaders(String[] headers) {

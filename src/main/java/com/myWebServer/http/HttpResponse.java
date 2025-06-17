@@ -1,15 +1,11 @@
 package main.java.com.myWebServer.http;
 
-import main.java.com.myWebServer.http.enums.HttpStatusCode;
-import main.java.com.myWebServer.http.enums.HttpVersion;
+import main.java.com.myWebServer.enums.HttpStatusCode;
+import main.java.com.myWebServer.enums.HttpVersion;
 
 public class HttpResponse extends HttpMessage {
     private HttpStatusCode statusCode;
     private String body;
-
-    public HttpResponse() {
-        super();
-    }
 
     public HttpResponse(HttpVersion version, int statusCode, String body) {
         super();
@@ -23,21 +19,11 @@ public class HttpResponse extends HttpMessage {
         return response.getHttpVersion().getText() + " " + response.getStatusCode().getCode() + " " + response.getStatusCode().getDescription() + "\n" + "\n" + response.getBody();
     }
 
-    public HttpResponse(HttpRequest request) {
-        super();
-        setHttpVersion(request.getHttpVersion().getText());
-    }
-
     public HttpStatusCode getStatusCode() {
         return statusCode;
     }
 
-    @Override
-    protected void setHttpVersion(String httpVersion) {
-        this.httpVersion = HttpVersion.fromString(httpVersion);
-    }
-
-    public String getBody() {
+     public String getBody() {
         return body;
     }
 }

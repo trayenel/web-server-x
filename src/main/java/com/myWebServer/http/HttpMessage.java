@@ -1,6 +1,6 @@
 package main.java.com.myWebServer.http;
 
-import main.java.com.myWebServer.http.enums.HttpVersion;
+import main.java.com.myWebServer.enums.HttpVersion;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,15 +9,17 @@ public abstract class HttpMessage {
     private final Map<String, String> headers = new HashMap<>();
     protected HttpVersion httpVersion;
 
-    protected void removeHeader(Header header) {
-        this.headers.remove(header.key());
-    }
+//    protected void removeHeader(Header header) {
+//        this.headers.remove(header.key());
+//    }
 
     protected void addHeader(String key, String value) {
         this.headers.put(key, value);
     };
 
-    protected abstract void setHttpVersion(String httpVersion);
+    protected void setHttpVersion(String httpVersion) {
+        this.httpVersion = HttpVersion.fromString(httpVersion);
+    };
 
     public HttpVersion getHttpVersion() {
         return httpVersion;

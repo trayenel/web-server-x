@@ -1,4 +1,4 @@
-package main.java.com.myWebServer.http.enums;
+package main.java.com.myWebServer.enums;
 
 public enum HttpStatusCode {
     // 2xx Success
