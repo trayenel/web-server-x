@@ -1,20 +1,35 @@
 package main.java.com.myWebServer.url;
 
-import main.java.com.myWebServer.interfaces.Router;
+import main.java.com.myWebServer.base.Router;
+import main.java.com.myWebServer.http.HttpResponse;
+import main.java.com.myWebServer.managers.FileManager;
+import main.java.com.myWebServer.managers.Manager;
 
-public class UrlRouter implements Router {
+import java.nio.charset.StandardCharsets;
 
-    @Override
-    public void loadConfig() {
+public class UrlRouter extends Router {
+    private final FileManager fileManager;
+
+    public UrlRouter(FileManager fileManager) {
+        this.fileManager = fileManager;
     }
 
     @Override
-    public void addRoute() {
+    public void loadConfig(String configPath) {
+        String configFile = fileManager.start(configPath);
+    }
 
+    @Override
+    public void addRoute(String route) {
+        fileManager.writeString(route);
     }
 
     @Override
     public void removeRoute() {
 
+    }
+
+    @Override
+    public void handleRoute(String route) {
     }
 }

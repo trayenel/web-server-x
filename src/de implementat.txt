@@ -15,7 +15,7 @@ Practice subjects:
         Enums - Done
         Functional interfaces - X
 
-        Single responsability - In progress
+        Single responsability - Done
         Open-Closed - Done
         Liskov Substitution - X
         Interface segregation - In progress

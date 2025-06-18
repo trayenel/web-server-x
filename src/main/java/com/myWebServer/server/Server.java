@@ -2,8 +2,9 @@ package main.java.com.myWebServer.server;
 
 import main.java.com.myWebServer.http.HttpRequest;
 import main.java.com.myWebServer.http.HttpResponse;
-import main.java.com.myWebServer.enums.HttpMethod;
-import main.java.com.myWebServer.enums.HttpVersion;
+import main.java.com.myWebServer.http.enums.HttpVersion;
+import main.java.com.myWebServer.managers.FileManager;
+import main.java.com.myWebServer.url.UrlRouter;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -19,6 +20,9 @@ public class Server {
     }
 
     public void listen() throws IOException {
+        FileManager fm = new FileManager();
+        UrlRouter urlRouter = new UrlRouter(fm);
+
         while (true) {
             Socket clientSocket = serverSocket.accept();
             clientSocket.setKeepAlive(true);
@@ -28,17 +32,14 @@ public class Server {
             System.out.println("New connection established from " + clientSocket.getInetAddress());
 
             HttpRequest request = new HttpRequest(inputStream);
+            HttpResponse response = new HttpResponse(HttpVersion.HTTP_1_1, 200, "Hello World");
 
-            if (request.getMethod() == HttpMethod.GET) {
-                HttpResponse response = switch (request.getPath()) {
-                    case "/" -> new HttpResponse(HttpVersion.HTTP_1_1, 200, "Hello World");
-                    default -> new HttpResponse(HttpVersion.HTTP_1_1, 404, "Not Found");
-                };
-                byte[] bytes = HttpResponse.stringify(response).getBytes(StandardCharsets.UTF_8);
+            urlRouter.handleRoute(request.getPath());
 
-                outputStream.write(bytes);
-                outputStream.flush();
-            }
+            byte[] bytes = HttpResponse.stringify(response).getBytes(StandardCharsets.UTF_8);
+
+            outputStream.write(bytes);
+            outputStream.flush();
 
             inputStream.close();
             outputStream.close();

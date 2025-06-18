@@ -1,4 +1,4 @@
-package main.java.com.myWebServer.enums;
+package main.java.com.myWebServer.http.enums;
 
 public enum HttpVersion {
     HTTP_1_0("HTTP/1.0"),

@@ -1,0 +1,11 @@
+package main.java.com.myWebServer.base;
+
+public abstract class Router {
+    public abstract void loadConfig(String configPath);
+
+    public abstract void addRoute(String route);
+
+    public abstract void removeRoute();
+
+    public abstract void handleRoute(String route);
+}

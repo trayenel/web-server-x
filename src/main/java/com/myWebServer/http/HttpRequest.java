@@ -1,6 +1,6 @@
 package main.java.com.myWebServer.http;
 
-import main.java.com.myWebServer.enums.HttpMethod;
+import main.java.com.myWebServer.http.enums.HttpMethod;
 
 import java.io.IOException;
 import java.io.InputStream;

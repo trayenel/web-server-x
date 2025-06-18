@@ -1,7 +1,7 @@
 package main.java.com.myWebServer.http;
 
-import main.java.com.myWebServer.enums.HttpStatusCode;
-import main.java.com.myWebServer.enums.HttpVersion;
+import main.java.com.myWebServer.http.enums.HttpStatusCode;
+import main.java.com.myWebServer.http.enums.HttpVersion;
 
 public class HttpResponse extends HttpMessage {
     private HttpStatusCode statusCode;
