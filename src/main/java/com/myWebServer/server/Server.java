@@ -6,7 +6,9 @@ import main.java.com.myWebServer.http.enums.HttpVersion;
 import main.java.com.myWebServer.managers.FileManager;
 import main.java.com.myWebServer.url.UrlRouter;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +23,7 @@ public class Server {
 
     public void listen() throws IOException {
         FileManager fm = new FileManager();
-        UrlRouter urlRouter = new UrlRouter(fm);
+        UrlRouter urlRouter = new UrlRouter(fm, "src/main/java/com/myWebServer/routes.yaml");
 
         while (true) {
             Socket clientSocket = serverSocket.accept();
@@ -32,7 +34,7 @@ public class Server {
             System.out.println("New connection established from " + clientSocket.getInetAddress());
 
             HttpRequest request = new HttpRequest(inputStream);
-            HttpResponse response = new HttpResponse(HttpVersion.HTTP_1_1, 200, "Hello World");
+            HttpResponse response = new HttpResponse(request.getHttpVersion(), 200, urlRouter.handleRoute(request.getPath()));
 
             urlRouter.handleRoute(request.getPath());
 

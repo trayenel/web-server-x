@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileManager implements Manager {
-    private String lastContent = "";
     private Path path;
 
     public void loadFile(Path path) {
@@ -17,9 +16,7 @@ public class FileManager implements Manager {
         Path filePath = Path.of(path);
 
         try {
-            lastContent = Files.readString(filePath);
-
-            return lastContent;
+            return Files.readString(filePath);
         } catch (IOException e) {
             System.err.println("File not found " + path);
 

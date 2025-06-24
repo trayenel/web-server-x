@@ -7,5 +7,5 @@ public abstract class Router {
 
     public abstract void removeRoute();
 
-    public abstract void handleRoute(String route);
+    public abstract String handleRoute(String route);
 }
