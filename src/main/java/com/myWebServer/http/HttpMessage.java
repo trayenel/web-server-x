@@ -11,11 +11,11 @@ public abstract class HttpMessage {
 
     protected void addHeader(String key, String value) {
         this.headers.put(key, value);
-    };
+    }
 
     protected void setHttpVersion(String httpVersion) {
         this.httpVersion = HttpVersion.fromString(httpVersion);
-    };
+    }
 
     public HttpVersion getHttpVersion() {
         return httpVersion;

@@ -2,8 +2,12 @@ package main.java.com.myWebServer.http;
 
 import main.java.com.myWebServer.http.enums.HttpMethod;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HttpRequest extends HttpMessage {
     private HttpMethod method;
@@ -12,35 +16,55 @@ public class HttpRequest extends HttpMessage {
 
     public HttpRequest(InputStream inputStream) throws IOException {
         super();
-        String[] requestStr = read(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        List<String> requestStr = readRequest(bufferedReader);
 
-        this.extractHeaders(requestStr);
-        this.setMethod(requestStr[0]);
-        this.setPath(requestStr[1]);
-        this.setHttpVersion(requestStr[2]);
+        if (!requestStr.isEmpty()) {
+        this.setRequestLine(requestStr.getFirst());
+        this.setHeaders(requestStr);
 
         if (this.method == HttpMethod.POST || this.method == HttpMethod.PUT || this.method == HttpMethod.PATCH) {
-            this.setBody(requestStr[requestStr.length - 1]);
+            this.setBody(bufferedReader);
+            }
         }
     }
 
-    private String[] read(InputStream inputStream) throws IOException {
-        StringBuilder result = new StringBuilder();
+    private List<String> readRequest(BufferedReader bufferedReader) throws IOException {
+        List<String> lines = new ArrayList<>();
+        String line;
 
-        do {
-            result.append((char) inputStream.read());
-        } while (inputStream.available() > 0);
+        while ((line = bufferedReader.readLine()) != null) {
+            if (line.isEmpty()) {
+                break;
+            }
+            lines.add(line);
+        }
 
-        return result.toString().split("[ \\r\\n]+");
+        return lines;
     }
 
-    protected void extractHeaders(String[] headers) {
-        for (int i = 4; i < headers.length - 1; i += 2) {
-            String key = headers[i - 1];
-            String value = headers[i];
+    protected void setHeaders(List<String> headers) {
 
-            this.addHeader(key, value);
+        for (int i = 1; i < headers.size(); i++) {
+            String line = headers.get(i);
+            int colonIdx = line.indexOf(':');
+
+            if (colonIdx != -1) {
+                String key = line.substring(0, colonIdx).trim();
+                String value = line.substring(colonIdx + 1).trim();
+
+                this.addHeader(key, value);
+            }
         }
+
+    }
+
+    private void setRequestLine(String requestLine) {
+        String[] splitRequestLine = requestLine.split(" ");
+
+        this.setMethod(splitRequestLine[0]);
+        this.setPath(splitRequestLine[1]);
+        this.setHttpVersion(splitRequestLine[2]);
     }
 
     private void setMethod(String methodStr) {
@@ -51,8 +75,12 @@ public class HttpRequest extends HttpMessage {
         this.path = path;
     }
 
-    private void setBody(String body) {
-        this.body = body;
+    private void setBody(BufferedReader bufferedReader) throws IOException {
+        int contentLength = Integer.parseInt(this.getHeader("Content-Length"));
+
+        char[] bodyChars  = new char[contentLength];
+        int readChars = bufferedReader.read(bodyChars);
+        this.body = new String(bodyChars, 0, readChars);
     }
 
     public String getBody() {

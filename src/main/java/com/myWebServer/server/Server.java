@@ -2,7 +2,6 @@ package main.java.com.myWebServer.server;
 
 import main.java.com.myWebServer.http.HttpRequest;
 import main.java.com.myWebServer.http.HttpResponse;
-import main.java.com.myWebServer.http.enums.HttpVersion;
 import main.java.com.myWebServer.managers.FileManager;
 import main.java.com.myWebServer.url.UrlRouter;
 
@@ -35,8 +34,6 @@ public class Server {
 
             HttpRequest request = new HttpRequest(inputStream);
             HttpResponse response = new HttpResponse(request.getHttpVersion(), 200, urlRouter.handleRoute(request.getPath()));
-
-            urlRouter.handleRoute(request.getPath());
 
             byte[] bytes = HttpResponse.stringify(response).getBytes(StandardCharsets.UTF_8);
 
