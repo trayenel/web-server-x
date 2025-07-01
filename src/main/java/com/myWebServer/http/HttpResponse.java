@@ -4,8 +4,8 @@ import main.java.com.myWebServer.http.enums.HttpStatusCode;
 import main.java.com.myWebServer.http.enums.HttpVersion;
 
 public class HttpResponse extends HttpMessage {
-    private HttpStatusCode statusCode;
-    private String body;
+    private final HttpStatusCode statusCode;
+    private final String body;
 
     public HttpResponse(HttpVersion version, int statusCode, String body) {
         super();
