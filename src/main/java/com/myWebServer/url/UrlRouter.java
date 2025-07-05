@@ -45,8 +45,6 @@ public class UrlRouter extends Router {
             if (!routes.containsKey(key)) {
                 String value = route.substring(colonIdx + 1).trim();
                 routes.put(key, value);
-
-                fileManager.writeString(String.format("\n  %s: \"%s\"", key, value));
             } else {
                 System.err.println("Route already added");
             }

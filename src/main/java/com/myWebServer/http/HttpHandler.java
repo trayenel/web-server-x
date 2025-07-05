@@ -1,13 +1,29 @@
 package main.java.com.myWebServer.http;
 
 import main.java.com.myWebServer.http.enums.HttpMethod;
-import main.java.com.myWebServer.http.enums.HttpVersion;
+import main.java.com.myWebServer.http.enums.HttpStatusCode;
+import main.java.com.myWebServer.http.login.LoginHandler;
+import main.java.com.myWebServer.http.user.UserHandler;
+import main.java.com.myWebServer.managers.FileManager;
 
-public abstract class HttpHandler {
-    HttpRequest httpRequest;
+import java.nio.file.Path;
+import java.util.HashMap;
 
-    HttpHandler(HttpRequest httpRequest) {
+public class HttpHandler {
+    protected HttpRequest httpRequest;
+
+    protected HttpHandler(HttpRequest httpRequest) {
         this.httpRequest = httpRequest;
+    }
+
+    public static HttpHandler createHandler(HttpRequest httpRequest) {
+        String path = httpRequest.getPath();
+        
+        return switch (path) {
+            case "/login" -> new LoginHandler(httpRequest);
+            case "/users" -> new UserHandler(httpRequest);
+            default -> new HttpHandler(httpRequest);
+        };
     }
 
     public HttpResponse handleRequest() {
@@ -23,17 +39,38 @@ public abstract class HttpHandler {
         };
     }
 
-    private HttpResponse handleBadMethod() {
-        return new HttpResponse(HttpVersion.HTTP_1_1, 405, "");
+    protected HttpResponse handleGet() {
+        Path path = Path.of("/home/trayenel/programmingProjects/web-server-x/index.html");
+
+        FileManager fm = new FileManager(path);
+        String file = fm.start();
+
+        HashMap<String, String> headers = new HashMap<>();
+
+        headers.put("Content-Type", "text/html");
+
+        return new HttpResponse(httpRequest.getHttpVersion(), 200, file, headers);
     }
 
-    protected abstract HttpResponse handleGet();
+    protected HttpResponse handlePost() {
+        return this.handleBadMethod();
+    }
 
-    protected abstract HttpResponse handlePost();
+    protected HttpResponse handlePut() {
+        return this.handleBadMethod();
+    }
 
-    protected abstract HttpResponse handlePut();
+    protected HttpResponse handleDelete() {
+        return this.handleBadMethod();
+    }
 
-    protected abstract HttpResponse handleDelete();
+    protected HttpResponse handlePatch() {
+        return this.handleBadMethod();
+    }
 
-    protected abstract HttpResponse handlePatch();
+    protected HttpResponse handleBadMethod() {
+        int statusCode = 405;
+
+        return new HttpResponse(httpRequest.getHttpVersion(), statusCode, HttpStatusCode.fromCode(405).getDescription(), null);
+    }
 }

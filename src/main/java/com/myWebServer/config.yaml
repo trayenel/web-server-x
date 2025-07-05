@@ -1,0 +1,8 @@
+---
+#Routes:
+  /: "Home"
+  /login: "Login"
+  /users: "Users"
+#Server:
+#  port: 8080
+#  htmlFilesPath: ''

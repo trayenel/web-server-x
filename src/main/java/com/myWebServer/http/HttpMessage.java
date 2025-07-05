@@ -13,6 +13,10 @@ public abstract class HttpMessage {
         this.headers.put(key, value);
     }
 
+    protected void setHeaders(Map<String, String> headers) {
+        this.headers.putAll(headers);
+    }
+
     protected void setHttpVersion(String httpVersion) {
         this.httpVersion = HttpVersion.fromString(httpVersion);
     }
@@ -21,10 +25,14 @@ public abstract class HttpMessage {
         return httpVersion;
     }
 
-    public void printHeaders() {
+    public String getHeaders() {
+        StringBuilder headers = new StringBuilder();
+
         for (Map.Entry<String, String> header : this.headers.entrySet()) {
-            System.out.println(header.getKey() + ": " + header.getValue());
+            headers.append(header.getKey()).append(": ").append(header.getValue());
         }
+
+        return headers.toString();
     }
 
     public String getHeader(String key) {

@@ -8,12 +8,10 @@ import java.nio.file.StandardOpenOption;
 public class FileManager implements Manager {
     private final Path path;
 
-
     public FileManager(Path path) {
         super();
         this.path = path;
     }
-
 
     @Override
     public String start() {
