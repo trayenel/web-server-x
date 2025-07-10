@@ -5,17 +5,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-public class FileManager implements Manager {
-    private final Path path;
+public class FileManager {
+    private Path path;
+
+    public FileManager() {
+    }
 
     public FileManager(Path path) {
-        super();
         this.path = path;
     }
 
-    @Override
-    public String start() {
+    public void loadFile(Path path) {
+        this.path = path;
+    }
 
+    public String start() {
         try {
             return Files.readString(path);
         } catch (IOException e) {
@@ -23,11 +27,6 @@ public class FileManager implements Manager {
 
             return null;
         }
-    }
-
-    @Override
-    public void stop() {
-
     }
 
     public void writeString(String route) {
@@ -38,7 +37,6 @@ public class FileManager implements Manager {
         }
     }
 
-    @Override
     public String getStatus() {
         return "Loaded file: " + this.path;
     }

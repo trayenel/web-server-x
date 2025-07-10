@@ -1,35 +1,40 @@
-Features:
--Sistem de citit fisiere pentru HTTP requesturi (verificari daca fila este modificata)
--Sistem de routing + citit config file cu rute
+=== CUSTOM JAVA WEB SERVER → SPRING PREP ROADMAP ===
+**Goal**: Implement features manually to understand Spring's magic later.
 
+PHASE 1: DATA & API FOUNDATION
+ JDBC Integration
+  - Add PostgreSQL/MySQL driver to pom.xml.
+  - Create DatabaseManager class (handle connections, queries).
+  - Modify UserHandler to fetch/save DB data.
 
-Practice subjects:
-    OOP:
-        Abstractizare - Done
-        Encapsulare - Done
-        Mostenire - Done
-        Polimorfism - X
+ JSON Support
+  - Add Gson/Jackson dependency.
+  - Serialize Java objects → JSON in HttpResponse.
+  - Update handlers (e.g., return JSON for /api/users).
 
-        Clase abstracte - Done
-        Interfete - X
-        Enums - Done
-        Functional interfaces - X
+ Query/Form Params
+  - Parse URL queries (/users?role=admin).
+  - Handle x-www-form-urlencoded POST data.
 
-        Single responsability - Done
-        Open-Closed - Done
-        Liskov Substitution - X
-        Interface segregation - In progress
-        Dependency inversion - X
+PHASE 2: PERFORMANCE & SECURITY
+ Multithreading
+  - Replace ServerSocket with ExecutorService (thread pool).
+  - Stress-test with 50+ concurrent requests.
 
-    Java stuff:
-        Exception handling - In progress
-        Multi-threading - X
-        Lambda Functions - X
-        I/O Operations - Done
-        File operations - X
-        Generics - In progress
-        Java Collections - Done
-        Networking sockets - In progress
-        Packages - Done
+ Middleware Pipeline
+  - Add pre-processors (logging, timing).
+  - Example: middlewares.add(new AuthMiddleware()).
 
+ Basic Authentication
+  - Validate Authorization headers.
+  - Block unauthenticated access to /admin.
 
+PHASE 3: FRONTEND
+ Dynamic HTML Templating
+  - Replace hardcoded HTML with {{variables}}.
+  - Use String.replace() or regex.
+
+--Bonus--
+★ Connection Pooling (HikariCP)
+★ Unified Error Handling (JSON errors)
+★ Mini-ORM (Map ResultSet → Java objects)
