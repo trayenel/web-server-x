@@ -1,0 +1,40 @@
+=== CUSTOM JAVA WEB SERVER → SPRING PREP ROADMAP ===
+**Goal**: Implement features manually to understand Spring's magic later.
+
+PHASE 1: DATA & API FOUNDATION
+ JDBC Integration
+  - Add PostgreSQL/MySQL driver to pom.xml.
+  - Create DatabaseManager class (handle connections, queries).
+  - Modify UserHandler to fetch/save DB data.
+
+ JSON Support
+  - Add Gson/Jackson dependency.
+  - Serialize Java objects → JSON in HttpResponse.
+  - Update handlers (e.g., return JSON for /api/users).
+
+ Query/Form Params
+  - Parse URL queries (/users?role=admin).
+  - Handle x-www-form-urlencoded POST data.
+
+PHASE 2: PERFORMANCE & SECURITY
+ Multithreading
+  - Replace ServerSocket with ExecutorService (thread pool).
+  - Stress-test with 50+ concurrent requests.
+
+ Middleware Pipeline
+  - Add pre-processors (logging, timing).
+  - Example: middlewares.add(new AuthMiddleware()).
+
+ Basic Authentication
+  - Validate Authorization headers.
+  - Block unauthenticated access to /admin.
+
+PHASE 3: FRONTEND
+ Dynamic HTML Templating
+  - Replace hardcoded HTML with {{variables}}.
+  - Use String.replace() or regex.
+
+--Bonus--
+★ Connection Pooling (HikariCP)
+★ Unified Error Handling (JSON errors)
+★ Mini-ORM (Map ResultSet → Java objects)
