@@ -1,4 +1,4 @@
-package main.java.com.myWebServer.managers;
+package com.trayenel.managers;
 
 import java.io.IOException;
 import java.nio.file.Files;

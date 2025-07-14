@@ -1,6 +1,7 @@
-package main.java.com.myWebServer.http;
+package com.trayenel.http;
 
-import main.java.com.myWebServer.http.enums.HttpVersion;
+
+import com.trayenel.http.enums.HttpVersion;
 
 import java.util.HashMap;
 import java.util.Map;

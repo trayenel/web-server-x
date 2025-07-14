@@ -1,4 +1,4 @@
-package main.java.com.myWebServer.http.enums;
+package com.trayenel.http.enums;
 
 public enum HttpMethod {
     GET("GET"),

@@ -1,6 +1,7 @@
-package main.java.com.myWebServer.http;
+package com.trayenel.http;
 
-import main.java.com.myWebServer.http.enums.HttpMethod;
+
+import com.trayenel.http.enums.HttpMethod;
 
 import java.io.BufferedReader;
 import java.io.IOException;

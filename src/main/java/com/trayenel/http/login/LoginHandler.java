@@ -1,10 +1,10 @@
-package main.java.com.myWebServer.http.login;
+package com.trayenel.http.login;
 
-import main.java.com.myWebServer.http.HttpHandler;
-import main.java.com.myWebServer.http.HttpRequest;
-import main.java.com.myWebServer.http.HttpResponse;
-import main.java.com.myWebServer.managers.FileManager;
-import main.java.com.myWebServer.url.UrlRouter;
+import com.trayenel.http.HttpHandler;
+import com.trayenel.http.HttpRequest;
+import com.trayenel.http.HttpResponse;
+import com.trayenel.managers.FileManager;
+import com.trayenel.url.UrlRouter;
 
 public class LoginHandler extends HttpHandler {
     public LoginHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, String htmlFilesPath) {

@@ -1,4 +1,0 @@
----
-  Port: "8080"
-  HtmlFilesPath: "/home/trayenel/programmingProjects/web-server-x/html"
-  RoutesConfigPath : "/home/trayenel/programmingProjects/web-server-x/src/main/java/com/myWebServer/routes.yaml"

@@ -1,11 +1,11 @@
-package main.java.com.myWebServer.server;
+package com.trayenel.server;
 
-import main.java.com.myWebServer.base.Configurable;
-import main.java.com.myWebServer.http.HttpHandler;
-import main.java.com.myWebServer.http.HttpRequest;
-import main.java.com.myWebServer.http.HttpResponse;
-import main.java.com.myWebServer.managers.FileManager;
-import main.java.com.myWebServer.url.UrlRouter;
+import com.trayenel.base.Configurable;
+import com.trayenel.http.HttpHandler;
+import com.trayenel.http.HttpRequest;
+import com.trayenel.http.HttpResponse;
+import com.trayenel.managers.FileManager;
+import com.trayenel.url.UrlRouter;
 
 import java.io.IOException;
 import java.io.InputStream;

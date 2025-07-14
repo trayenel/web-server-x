@@ -1,4 +1,4 @@
-package main.java.com.myWebServer.base;
+package com.trayenel.base;
 
 public abstract class Router {
     public abstract void addRoute(String route);

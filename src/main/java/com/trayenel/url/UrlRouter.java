@@ -1,7 +1,7 @@
-package main.java.com.myWebServer.url;
+package com.trayenel.url;
 
-import main.java.com.myWebServer.base.Configurable;
-import main.java.com.myWebServer.base.Router;
+import com.trayenel.base.Configurable;
+import com.trayenel.base.Router;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
