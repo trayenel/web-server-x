@@ -1,6 +1,10 @@
 === CUSTOM JAVA WEB SERVER → SPRING PREP ROADMAP ===
 **Goal**: Implement features manually to understand Spring's magic later.
 
+PHASE 0: BUILD TOOLS
+ Maven Integration
+  - Convert project to Maven
+
 PHASE 1: DATA & API FOUNDATION
  JDBC Integration
   - Add PostgreSQL/MySQL driver to pom.xml.

@@ -1,14 +1,14 @@
-package main.java.com.myWebServer.http.user;
+package com.trayenel.http.user;
 
-import main.java.com.myWebServer.http.HttpHandler;
-import main.java.com.myWebServer.http.HttpRequest;
-import main.java.com.myWebServer.http.HttpResponse;
-import main.java.com.myWebServer.managers.FileManager;
-import main.java.com.myWebServer.url.UrlRouter;
+import com.trayenel.http.HttpHandler;
+import com.trayenel.http.HttpRequest;
+import com.trayenel.http.HttpResponse;
+import com.trayenel.managers.FileManager;
+import com.trayenel.url.UrlRouter;
 
 public class UserHandler extends HttpHandler {
 
-   public UserHandler(HttpRequest httpRequest, FileManager fileManager,  UrlRouter urlRouter, String htmlFilesPath) {
+   public UserHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, String htmlFilesPath) {
         super(httpRequest,  fileManager, urlRouter, htmlFilesPath);
     }
 

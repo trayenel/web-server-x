@@ -1,11 +1,11 @@
-package main.java.com.myWebServer.http;
+package com.trayenel.http;
 
-import main.java.com.myWebServer.http.enums.HttpMethod;
-import main.java.com.myWebServer.http.enums.HttpStatusCode;
-import main.java.com.myWebServer.http.login.LoginHandler;
-import main.java.com.myWebServer.http.user.UserHandler;
-import main.java.com.myWebServer.managers.FileManager;
-import main.java.com.myWebServer.url.UrlRouter;
+import com.trayenel.http.enums.HttpMethod;
+import com.trayenel.http.enums.HttpStatusCode;
+import com.trayenel.http.login.LoginHandler;
+import com.trayenel.http.user.UserHandler;
+import com.trayenel.managers.FileManager;
+import com.trayenel.url.UrlRouter;
 
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class HttpHandler {
     protected HttpRequest httpRequest;
     protected FileManager fileManager;
     protected UrlRouter urlRouter;
-    private String htmlFiesPath;
+    private final String htmlFiesPath;
 
     protected HttpHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, String htmlFiesPath) {
         this.urlRouter = urlRouter;
