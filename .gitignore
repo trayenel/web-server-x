@@ -31,3 +31,6 @@ bin/
 
 ### Config files ###
 src/main/resources/config.yaml
+
+### Compiled folder ###
+target
