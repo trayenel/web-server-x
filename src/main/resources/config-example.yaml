@@ -1,0 +1,14 @@
+Server:
+  Port: "Your port"
+  HtmlFilesPath: "html"
+Routes:
+  /: "index.html"
+  /login: "Login"
+  /users: "Users"
+  /404: "error.html"
+db:
+  user: "your username"
+  pass: "your password"
+  url: "your db url"
+
+# Name your config-example.yaml to config.yaml

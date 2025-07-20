@@ -1,5 +1,7 @@
 package com.trayenel.base;
 
+import java.util.Map;
+
 public abstract class Router {
     public abstract void addRoute(String route);
 

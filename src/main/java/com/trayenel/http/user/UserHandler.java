@@ -3,7 +3,7 @@ package com.trayenel.http.user;
 import com.trayenel.http.HttpHandler;
 import com.trayenel.http.HttpRequest;
 import com.trayenel.http.HttpResponse;
-import com.trayenel.managers.FileManager;
+import com.trayenel.base.FileManager;
 import com.trayenel.url.UrlRouter;
 
 public class UserHandler extends HttpHandler {

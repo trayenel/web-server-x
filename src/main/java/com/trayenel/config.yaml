@@ -1,4 +1,0 @@
----
-  Port: "8080"
-  HtmlFilesPath: "html"
-  RoutesConfigPath : "src/main/java/com/trayenel/routes.yaml"

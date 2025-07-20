@@ -4,8 +4,9 @@ import com.trayenel.base.Configurable;
 import com.trayenel.http.HttpHandler;
 import com.trayenel.http.HttpRequest;
 import com.trayenel.http.HttpResponse;
-import com.trayenel.managers.FileManager;
+import com.trayenel.base.FileManager;
 import com.trayenel.url.UrlRouter;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,27 +14,30 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Map;
 
 public class Server implements Configurable {
     private final HashMap<String, HttpHandler> handlers = new HashMap<>();
     private final UrlRouter urlRouter = new UrlRouter();
     private final FileManager fileManager = new FileManager();
-    private int port;
-    private String htmlFilesPath;
+    private Map<String, Object> config;
 
     public Server(String configFilePath) throws IOException {
-        this.fileManager.loadFile(Path.of(configFilePath));
-        this.loadConfig(fileManager.start());
+        Yaml yaml = new Yaml();
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(configFilePath);
+
+        this.config = yaml.load(inputStream);
+
+        this.loadConfig(config);
     }
 
     public void listen() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(this.port);
+        Map<String, Object> serverSettings = (Map<String, Object>) this.config.get("Server");
+        int port = Integer.parseInt((String) serverSettings.get("Port"));
 
-        System.out.println("Listening on port " + this.port);
+        ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("Listening on port " + port);
 
         while (true) {
             Socket clientSocket = serverSocket.accept();
@@ -48,7 +52,7 @@ public class Server implements Configurable {
                 HttpRequest request = new HttpRequest(inputStream);
 
                 if (!handlers.containsKey(request.getPath())) {
-                    HttpHandler handler = HttpHandler.createHandler(request, this.fileManager, this.urlRouter, this.htmlFilesPath);
+                    HttpHandler handler = HttpHandler.createHandler(request, this.fileManager, this.urlRouter, (String) serverSettings.get("HtmlFilesPath"));
                     handlers.put(request.getPath(), handler);
             }
 
@@ -74,31 +78,13 @@ public class Server implements Configurable {
     }
 
     @Override
-    public void loadConfig(String configFile) {
-        boolean loaded = false;
-        Pattern pattern = Pattern.compile("^ *([^:\\n]+):\\s*\"([^\"]+)\"", Pattern.MULTILINE);
-        Matcher matcher = pattern.matcher(configFile);
+    public void loadConfig(Map<String, Object> config) {
+        this.config = config;
 
-        System.out.println("Loading config file:\n" + configFile + "\n");
+        Map<String, Object> routes = (Map<String, Object>) this.config.get("Routes");
+        this.urlRouter.loadConfig(routes);
 
-        while (matcher.find()) {
-            String key = matcher.group(1).trim();
-            String value = matcher.group(2).trim();
-
-            if (key.equalsIgnoreCase("port")) {
-                this.port = Integer.parseInt(value);
-            } if (key.equalsIgnoreCase("htmlFilesPath")) {
-                this.htmlFilesPath = value;
-            } if (key.equalsIgnoreCase("routesConfigPath")) {
-                this.fileManager.loadFile(Path.of(value));
-                this.urlRouter.loadConfig(this.fileManager.start());
-            }
-
-            loaded = true;
-        }
-
-        if (!loaded) {
-            System.err.println("Unable to load config file");
-        }
+        this.config.remove("Routes");
+        this.config.remove("DB");
     }
 }

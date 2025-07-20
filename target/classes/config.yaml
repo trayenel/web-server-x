@@ -1,0 +1,12 @@
+Server:
+  Port: "8080"
+  HtmlFilesPath: "html"
+Routes:
+  /: "index.html"
+  /login: "Login"
+  /users: "Users"
+  /404: "error.html"
+DB:
+  User: "root"
+  Pass: "1234"
+  Url: "jdbc:mysql://localhost:3333/test"
