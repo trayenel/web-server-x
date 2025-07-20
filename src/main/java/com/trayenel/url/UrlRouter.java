@@ -4,27 +4,20 @@ import com.trayenel.base.Configurable;
 import com.trayenel.base.Router;
 
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Map;
 
 public class UrlRouter extends Router implements Configurable {
-    private final HashMap<String, String> routes;
+    private Map<String, Object> routes;
 
     public UrlRouter() {
         this.routes = new HashMap<>();
     }
 
     @Override
-    public void loadConfig(String configFile) {
-        Pattern pattern = Pattern.compile("^ *([^:\\n]+):\\s*\"([^\"]+)\"", Pattern.MULTILINE);
-        Matcher matcher = pattern.matcher(configFile);
+    public void loadConfig(Map<String, Object> config) {
+        this.routes = config;
 
-        while (matcher.find()) {
-            String key = matcher.group(1).trim();
-            String value = matcher.group(2).trim();
-
-            routes.put(key, value);
-        }
+        System.out.println(this.routes);
     }
 
     @Override
@@ -53,12 +46,12 @@ public class UrlRouter extends Router implements Configurable {
 
     @Override
     public String handleRoute(String route) {
-         String storedRoute = this.routes.get(route);
+         Object storedRoute = this.routes.get(route);
 
          if  (storedRoute == null) {
-             return this.routes.get("/404");
+             return this.routes.get("/404").toString();
          }
 
-         return storedRoute;
+         return storedRoute.toString();
     }
 }

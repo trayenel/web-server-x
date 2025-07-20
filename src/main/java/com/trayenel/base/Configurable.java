@@ -1,5 +1,7 @@
 package com.trayenel.base;
 
+import java.util.Map;
+
 public interface Configurable {
-    public void loadConfig(String configFile);
+    void loadConfig(Map<String, Object> config);
 }

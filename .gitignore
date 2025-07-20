@@ -28,3 +28,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Config files ###
+src/main/resources/config.yaml
+
+### Compiled folder ###
+target

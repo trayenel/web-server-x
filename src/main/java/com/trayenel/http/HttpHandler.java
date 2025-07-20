@@ -4,7 +4,7 @@ import com.trayenel.http.enums.HttpMethod;
 import com.trayenel.http.enums.HttpStatusCode;
 import com.trayenel.http.login.LoginHandler;
 import com.trayenel.http.user.UserHandler;
-import com.trayenel.managers.FileManager;
+import com.trayenel.base.FileManager;
 import com.trayenel.url.UrlRouter;
 
 import java.nio.file.Path;
@@ -21,12 +21,12 @@ public class HttpHandler {
         this.urlRouter = urlRouter;
         this.fileManager = fileManager;
         this.httpRequest = httpRequest;
-        this.htmlFiesPath = htmlFiesPath;
+        this.htmlFiesPath = Objects.requireNonNull(this.getClass().getClassLoader().getResource(htmlFiesPath)).getPath();
     }
 
     public static HttpHandler createHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, String htmlFiesPath) {
         String path = httpRequest.getPath();
-        
+
         return switch (path) {
             case "/login" -> new LoginHandler(httpRequest, fileManager, urlRouter, htmlFiesPath);
             case "/users" -> new UserHandler(httpRequest, fileManager, urlRouter, htmlFiesPath);
