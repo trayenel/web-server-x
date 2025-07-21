@@ -9,12 +9,12 @@ PHASE 1: DATA & API FOUNDATION
  JDBC Integration
   - Add PostgreSQL/MySQL driver to pom.xml. - Done
   - Create DatabaseManager class (handle connections, queries). - Done
-  - Modify UserHandler to fetch/save DB data.
+  - Modify UserHandler to fetch/save DB data. - In progress
 
  JSON Support
-  - Add Gson/Jackson dependency.
-  - Serialize Java objects → JSON in HttpResponse.
-  - Update handlers (e.g., return JSON for /api/users).
+  - Add Gson/Jackson dependency. - Done
+  - Serialize Java objects → JSON in HttpResponse. - Done
+  - Update handlers (e.g., return JSON for /api/users). - Done
 
  Query/Form Params
   - Parse URL queries (/users?role=admin).

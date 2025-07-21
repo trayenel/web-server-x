@@ -62,4 +62,47 @@ public class DatabaseManager implements Configurable, Manager {
 
         return null;
     }
+
+    public int deleteById(int id, String table) throws SQLException {
+        String query = "DELETE FROM " + table + " WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+
+        if (statement.executeUpdate() == 1) {
+            return 200;
+        } else {
+            return 404;
+        }
+    }
+
+    public int insert(String table, Map<String, Object> data) throws SQLException {
+        StringBuilder query = new StringBuilder("INSERT INTO " + table + " (");
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            query.append(entry.getKey()).append(", ");
+        }
+
+        query.delete(query.length() - 2, query.length());
+        query.append(") VALUES (");
+
+        for (int i = 0; i < data.size(); i++) {
+           query.append("?, ");
+        }
+
+        query.delete(query.length() - 2, query.length());
+        query.append(")");
+
+        PreparedStatement statement = connection.prepareStatement(query.toString());
+        int i = 1;
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            statement.setObject(i++, entry.getValue());
+        }
+
+        if (statement.executeUpdate() == 1) {
+            return 200;
+        } else {
+            return 404;
+        }
+    }
 }
