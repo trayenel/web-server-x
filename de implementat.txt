@@ -7,8 +7,8 @@ PHASE 0: BUILD TOOLS - Done
 
 PHASE 1: DATA & API FOUNDATION
  JDBC Integration
-  - Add PostgreSQL/MySQL driver to pom.xml.
-  - Create DatabaseManager class (handle connections, queries).
+  - Add PostgreSQL/MySQL driver to pom.xml. - Done
+  - Create DatabaseManager class (handle connections, queries). - Done
   - Modify UserHandler to fetch/save DB data.
 
  JSON Support
@@ -32,11 +32,6 @@ PHASE 2: PERFORMANCE & SECURITY
  Basic Authentication
   - Validate Authorization headers.
   - Block unauthenticated access to /admin.
-
-PHASE 3: FRONTEND
- Dynamic HTML Templating
-  - Replace hardcoded HTML with {{variables}}.
-  - Use String.replace() or regex.
 
 --Bonus--
 ★ Connection Pooling (HikariCP)

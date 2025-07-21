@@ -4,8 +4,9 @@ import com.trayenel.http.enums.HttpMethod;
 import com.trayenel.http.enums.HttpStatusCode;
 import com.trayenel.http.login.LoginHandler;
 import com.trayenel.http.user.UserHandler;
-import com.trayenel.base.FileManager;
+import com.trayenel.file.FileManager;
 import com.trayenel.url.UrlRouter;
+import com.trayenel.db.DatabaseManager;
 
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -15,22 +16,29 @@ public class HttpHandler {
     protected HttpRequest httpRequest;
     protected FileManager fileManager;
     protected UrlRouter urlRouter;
+    protected DatabaseManager databaseManager;
     private final String htmlFiesPath;
 
-    protected HttpHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, String htmlFiesPath) {
+    protected HttpHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, DatabaseManager databaseManager, String htmlFiesPath) {
         this.urlRouter = urlRouter;
         this.fileManager = fileManager;
         this.httpRequest = httpRequest;
+        this.databaseManager = databaseManager;
         this.htmlFiesPath = Objects.requireNonNull(this.getClass().getClassLoader().getResource(htmlFiesPath)).getPath();
     }
 
-    public static HttpHandler createHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, String htmlFiesPath) {
-        String path = httpRequest.getPath();
+    public static HttpHandler createHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, DatabaseManager databaseManager, String htmlFiesPath) {
+        String[] pathParts = httpRequest.getPath().split("/");
+        String path = "/";
+
+        if (pathParts.length > 1) {
+            path = pathParts[1];
+        }
 
         return switch (path) {
-            case "/login" -> new LoginHandler(httpRequest, fileManager, urlRouter, htmlFiesPath);
-            case "/users" -> new UserHandler(httpRequest, fileManager, urlRouter, htmlFiesPath);
-            default -> new HttpHandler(httpRequest, fileManager, urlRouter, htmlFiesPath);
+            case "login" -> new LoginHandler(httpRequest, fileManager, urlRouter, databaseManager, htmlFiesPath);
+            case "user" -> new UserHandler(httpRequest, fileManager, urlRouter, databaseManager, htmlFiesPath);
+            default -> new HttpHandler(httpRequest, fileManager, urlRouter, databaseManager, htmlFiesPath);
         };
     }
 

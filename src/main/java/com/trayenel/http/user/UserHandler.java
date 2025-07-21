@@ -3,19 +3,40 @@ package com.trayenel.http.user;
 import com.trayenel.http.HttpHandler;
 import com.trayenel.http.HttpRequest;
 import com.trayenel.http.HttpResponse;
-import com.trayenel.base.FileManager;
+import com.trayenel.file.FileManager;
 import com.trayenel.url.UrlRouter;
+import com.trayenel.db.DatabaseManager;
+
+import java.sql.SQLException;
+import java.util.HashMap;
 
 public class UserHandler extends HttpHandler {
 
-   public UserHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, String htmlFilesPath) {
-        super(httpRequest,  fileManager, urlRouter, htmlFilesPath);
+   public UserHandler(HttpRequest httpRequest, FileManager fileManager, UrlRouter urlRouter, DatabaseManager databaseManager, String htmlFilesPath) {
+        super(httpRequest, fileManager, urlRouter, databaseManager, htmlFilesPath);
     }
 
     @Override
     protected HttpResponse handleGet() {
+        String result = "User not found";
+        int statusCode = 404;
 
-        return new HttpResponse(this.httpRequest.getHttpVersion(), 200, "Body lol", null);
+        try {
+           if (this.httpRequest.getPath().split("/").length > 2) {
+               int id = Integer.parseInt(this.httpRequest.getPath().split("/")[2]);
+
+               HashMap<String, Object> user = (HashMap<String, Object>) this.databaseManager.selectById(id, "user");
+
+               if (user != null) {
+                   result = user.toString();
+                   statusCode = 200;
+               }
+           }
+
+           return new HttpResponse(this.httpRequest.getHttpVersion(), statusCode, result, new HashMap<>());
+       } catch (SQLException e) {
+           throw new RuntimeException(e);
+       }
     }
 
     @Override

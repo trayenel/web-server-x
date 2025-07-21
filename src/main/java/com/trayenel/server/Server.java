@@ -1,10 +1,11 @@
 package com.trayenel.server;
 
 import com.trayenel.base.Configurable;
+import com.trayenel.db.DatabaseManager;
 import com.trayenel.http.HttpHandler;
 import com.trayenel.http.HttpRequest;
 import com.trayenel.http.HttpResponse;
-import com.trayenel.base.FileManager;
+import com.trayenel.file.FileManager;
 import com.trayenel.url.UrlRouter;
 import org.yaml.snakeyaml.Yaml;
 
@@ -21,6 +22,8 @@ public class Server implements Configurable {
     private final HashMap<String, HttpHandler> handlers = new HashMap<>();
     private final UrlRouter urlRouter = new UrlRouter();
     private final FileManager fileManager = new FileManager();
+    private final DatabaseManager databaseManager = new DatabaseManager();
+
     private Map<String, Object> config;
 
     public Server(String configFilePath) throws IOException {
@@ -30,13 +33,15 @@ public class Server implements Configurable {
         this.config = yaml.load(inputStream);
 
         this.loadConfig(config);
+        System.out.println(this.databaseManager.start());
     }
 
     public void listen() throws IOException {
         Map<String, Object> serverSettings = (Map<String, Object>) this.config.get("Server");
-        int port = Integer.parseInt((String) serverSettings.get("Port"));
 
+        int port = Integer.parseInt((String) serverSettings.get("Port"));
         ServerSocket serverSocket = new ServerSocket(port);
+
         System.out.println("Listening on port " + port);
 
         while (true) {
@@ -52,7 +57,7 @@ public class Server implements Configurable {
                 HttpRequest request = new HttpRequest(inputStream);
 
                 if (!handlers.containsKey(request.getPath())) {
-                    HttpHandler handler = HttpHandler.createHandler(request, this.fileManager, this.urlRouter, (String) serverSettings.get("HtmlFilesPath"));
+                    HttpHandler handler = HttpHandler.createHandler(request, this.fileManager, this.urlRouter, this.databaseManager, (String) serverSettings.get("HtmlFilesPath"));
                     handlers.put(request.getPath(), handler);
             }
 
@@ -82,7 +87,10 @@ public class Server implements Configurable {
         this.config = config;
 
         Map<String, Object> routes = (Map<String, Object>) this.config.get("Routes");
+        Map<String, Object> dbSettings = (Map<String, Object>) this.config.get("DB");
+
         this.urlRouter.loadConfig(routes);
+        this.databaseManager.loadConfig(dbSettings);
 
         this.config.remove("Routes");
         this.config.remove("DB");

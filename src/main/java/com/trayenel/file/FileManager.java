@@ -1,11 +1,13 @@
-package com.trayenel.base;
+package com.trayenel.file;
+
+import com.trayenel.base.Manager;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-public class FileManager {
+public class FileManager implements Manager {
     private Path path;
 
     public FileManager() {
@@ -37,7 +39,7 @@ public class FileManager {
         }
     }
 
-    public String getStatus() {
-        return "Loaded file: " + this.path;
+    public void getStatus() {
+        System.out.println("Loaded file: " + this.path);
     }
 }
