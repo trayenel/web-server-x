@@ -3,6 +3,8 @@ package com.trayenel.url;
 import com.trayenel.base.Configurable;
 import com.trayenel.base.Router;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,8 +18,6 @@ public class UrlRouter extends Router implements Configurable {
     @Override
     public void loadConfig(Map<String, Object> config) {
         this.routes = config;
-
-        System.out.println(this.routes);
     }
 
     @Override
